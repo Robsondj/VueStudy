@@ -8,6 +8,12 @@
       <li class="photo-list-item" v-for="(photo, index) of filterPhotos" :key="index">
         <my-panel :title="photo.titulo">
           <responsive-img :title="photo.titulo" :src="photo.url" />
+          <remove-button 
+              label="remover" 
+              type="button" 
+              :confirm="true" 
+              buttonStyle="danger" 
+              @activeButton="remove(photo)" />
         </my-panel>
       </li>
     </ul>
@@ -17,12 +23,14 @@
 <script>
 import Panel from '../shared/panel/Panel.vue';
 import ResponsiveImg from '../shared/responsive-img/ResponsiveImg.vue';
+import Button from '../shared/button/Button.vue';
 
 export default {
 
   components: {
     'my-panel': Panel,
-    'responsive-img': ResponsiveImg
+    'responsive-img': ResponsiveImg,
+    'remove-button': Button
   },
   
   data () {
@@ -48,6 +56,12 @@ export default {
       }
       return this.photos;
     }
+  },
+
+  methods: {
+      remove(photo) {
+            alert(photo.titulo);
+      }
   }
 }
 </script>
