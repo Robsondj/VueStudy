@@ -1,8 +1,11 @@
 <template>
   <div class="body">
     <h1 class="center">{{ title }}</h1>
+
+    <input type="search" class="filter" v-on:input="filter = $event.target.value" placeholder="search for the photo title">
+
     <ul class="photo-list">
-      <li class="photo-list-item" v-for="(photo, index) of photos" :key="index">
+      <li class="photo-list-item" v-for="(photo, index) of filterPhotos" :key="index">
         <my-panel :title="photo.titulo">
           <img class="responsive-img" :alt="photo.titulo" :src="photo.url">
         </my-panel>
@@ -23,7 +26,8 @@ export default {
   data () {
     return {
       title: 'Welcome Vue.js App',
-      photos: []
+      photos: [],
+      filter: ''
     }
   },
 
@@ -32,6 +36,16 @@ export default {
     this.$http.get('http://localhost:3000/v1/fotos')
       .then(res => res.json())
       .then(photos => this.photos = photos, error => console.log(error));
+  },
+
+  computed: {
+    filterPhotos() {
+      if(this.filter) {
+        let exp = new RegExp(this.filter.trim(), 'i');
+        return this.photos.filter(photo => exp.test(photo.titulo));
+      }
+      return this.photos;
+    }
   }
 }
 </script>
@@ -55,7 +69,12 @@ export default {
     display: inline-block;
   }
 
-   .responsive-img {
-     width: 100%;
-    }
+  .responsive-img {
+    width: 100%;
+  }
+
+  .filter {
+    display: block;
+    width: 100%;
+  }
 </style>
