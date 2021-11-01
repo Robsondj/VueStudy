@@ -15,17 +15,15 @@ export default {
   data () {
     return {
       title: 'Welcome Vue.js App',
-      photos: [
-        {
-          url: "./src/assets/logo.png",
-          title: "Vue photo"
-        },
-        {
-          url: "https://f.hubspotusercontent30.net/hubfs/8797985/Imported_Blog_Media/17_05_-2.png",
-          title: "Vue Web photo"
-        }
-      ]
+      photos: []
     }
+  },
+
+  created() {
+
+    this.$http.get('http://localhost:3000/v1/fotos')
+      .then(res => res.json())
+      .then(photos => this.photos = photos, error => console.log(error));
   }
 }
 </script>
