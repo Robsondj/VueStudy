@@ -1,11 +1,13 @@
 <template>
 
     <div class="panel">
-
-      <h2 class="panel-title" @dblclick="visible = !visible">{{ title }}</h2>
-      <div class="panel-content" v-show="visible">
-          <slot></slot>
-      </div>
+        
+        <h2 class="panel-title" @dblclick="visible = !visible">{{ title }}</h2>
+        <transition name="panel-fade">
+            <div class="panel-content" v-show="visible">
+                <slot></slot>
+            </div>
+        </transition>
     </div>
 
 </template>
@@ -45,6 +47,14 @@ export default {
     margin: 0 0 15px 0;
     padding: 10px;
     text-transform: uppercase;
+  }
+
+  .panel-fade-enter, .panel-fade-leave-active {
+    opacity: 0
+  }
+
+  .panel-fade-enter-active, .panel-fade-leave-active {
+    transition: opacity .5s
   }
 
 </style>
