@@ -24,6 +24,7 @@
 import Panel from '../shared/panel/Panel.vue';
 import ResponsiveImg from '../shared/responsive-img/ResponsiveImg.vue';
 import Button from '../shared/button/Button.vue';
+import transform from '../../directives/Transform';
 
 export default {
 
@@ -62,6 +63,10 @@ export default {
       remove(photo) {
             alert(photo.titulo);
       }
+  },
+
+  directives: {
+    'transform': transform
   }
 }
 </script>
