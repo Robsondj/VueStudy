@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 v-transform="{ increment: 15, animate: true}" class="center">{{ title }}</h1>
+    <h1 v-transform="15" class="center">{{ title }}</h1>
 
     <input type="search" class="filter" v-on:input="filter = $event.target.value" placeholder="search for the photo title">
 

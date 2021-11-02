@@ -7,16 +7,12 @@ Vue.directive('transform', {
         let current = 0;
         el.addEventListener('dblclick', function() {
 
-            let increment = 90;
+            let increment = binding.value || 90;
             let animate = false;
 
-            if(binding.value) {
-                increment = binding.value.increment;
-                animate = binding.value.animate;
-            }
             current += increment;
             this.style.transform = `rotate(${current}deg)`;
-            if(animate) {
+            if(binding.modifiers.animate) {
                 this.style.transition = "transform 0.5s";
             }
         });
