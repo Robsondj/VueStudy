@@ -8,7 +8,7 @@
       <div class="controle">
         <label for="titulo">TÍTULO</label>
         <input id="titulo" autocomplete="off"
-               v-model.lazy="photo.title"
+               v-model.lazy="photo.titulo"
         >
       </div>
 
@@ -17,13 +17,13 @@
         <input id="url" autocomplete="off"
                v-model.lazy="photo.url"
         >
-        <responsive-img v-show="photo.url" :url="photo.url" :title="photo.title" />
+        <responsive-img v-show="photo.url" :url="photo.url" :title="photo.titulo" />
       </div>
 
       <div class="controle">
         <label for="descricao">DESCRIÇÃO</label>
         <textarea id="descricao" autocomplete="off"
-                  v-model.lazy="photo.description"
+                  v-model.lazy="photo.descricao"
         ></textarea>
       </div>
 
@@ -40,6 +40,7 @@
 
 import ResponsiveImg from '../shared/responsive-img/ResponsiveImg.vue'
 import Button from '../shared/button/Button.vue';
+import Photo from '../../domain/photo/Photo';
 
 export default {
 
@@ -51,22 +52,16 @@ export default {
 
   data() {
       return {
-          photo: {
-              title: '',
-              url: '',
-              description: ''
-          }
+          photo: new Photo()
       }
   },
 
   methods: {
       save() {
-          console.log(this.photo);
-          this.photo = {
-              title: '',
-              url: '',
-              description: ''
-          }
+          this.$http
+            .post('http://localhost:3000/v1/fotos', this.photo)
+            .then(() => this.photo = new Photo(), error => console.log(error));
+               
       }
   }
 }
