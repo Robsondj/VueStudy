@@ -2,6 +2,8 @@
   <div>
     <h1 v-transform:reverse.animate="15" class="center">{{ title }}</h1>
 
+    <p v-show="message" class="centralizado">{{ message }}</p>
+
     <input type="search" class="filter" v-on:input="filter = $event.target.value" placeholder="search for the photo title">
 
     <ul class="photo-list">
@@ -38,7 +40,8 @@ export default {
     return {
       title: 'Welcome Vue.js App',
       photos: [],
-      filter: ''
+      filter: '',
+      message: ''
     }
   },
 
@@ -61,7 +64,18 @@ export default {
 
   methods: {
       remove(photo) {
-            alert(photo.titulo);
+        this.$http
+          .delete(`http://localhost:3000/v1/fotos/${photo._id}`)
+          .then(() => {
+            this.message = 'Foto removida com sucesso';
+            let index = this.photos.indexOf(photo);
+            this.photos.splice(index, 1);
+          }, 
+          err => {
+            this.message = 'Não foi possível remover a foto';
+            console.log(err);
+          }
+        )
       }
   },
 
