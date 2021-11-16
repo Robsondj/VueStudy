@@ -4,8 +4,11 @@ export default class FotoService {
         this._resource = resource('v1/fotos{/id}');
     }
 
-    save(foto) {
-        return this._resource.save(foto);
+    save(photo) {
+        if (photo._id) {
+            return this._resource.update({ id: photo._id }, photo);
+        }
+        return this._resource.save(photo);
     }
 
     list() {
@@ -16,5 +19,11 @@ export default class FotoService {
 
     delete(id) {
         return this._resource.delete({ id });
+    }
+
+    show(id) {
+        return this._resource
+          .get({ id })
+          .then(res => res.json());
     }
 }

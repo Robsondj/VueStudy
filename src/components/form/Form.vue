@@ -2,7 +2,10 @@
 
   <div>
     <h1 class="centralizado">Cadastro</h1>
-    <h2 class="centralizado"></h2>
+    <h2 class="centralizado">{{ photo.titulo }}</h2>
+
+    <h2 v-if="photo._id" class="centralizado">Alterando</h2>
+    <h2 v-else class="centralizado">Incluindo</h2>
 
     <form @submit.prevent="save()">
       <div class="controle">
@@ -53,7 +56,8 @@ export default {
 
   data() {
       return {
-          photo: new Photo()
+          photo: new Photo(),
+          id: this.$route.params.id
       }
   },
 
@@ -61,13 +65,25 @@ export default {
       save() {
           this.service
             .save(this.photo)
-            .then(() => this.photo = new Photo(), error => console.log(error));
+            .then(() => {
+              if (this.id) {
+                this.$router.push({ name: 'home'});
+              }
+              this.photo = new Photo()
+            }, 
+            error => console.log(error));
                
       }
   },
 
   created() {
     this.service = new PhotoService(this.$resource);
+
+    if (this.id) {
+      this.service
+        .show(this.id)
+        .then(photo => this.photo = photo);
+    }
   }
 }
 

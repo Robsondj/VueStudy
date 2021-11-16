@@ -10,7 +10,10 @@
       <li class="photo-list-item" v-for="(photo, index) of filterPhotos" :key="index">
         <my-panel :title="photo.titulo">
           <responsive-img :title="photo.titulo" :src="photo.url" />
-          <remove-button 
+          <router-link :to="{ name: 'altera', params: { id: photo._id }}">
+            <photo-button label="alterar" type="button" />
+          </router-link>
+          <photo-button 
               label="remover" 
               type="button" 
               :confirm="true" 
@@ -34,7 +37,7 @@ export default {
   components: {
     'my-panel': Panel,
     'responsive-img': ResponsiveImg,
-    'remove-button': Button
+    'photo-button': Button
   },
   
   data () {
