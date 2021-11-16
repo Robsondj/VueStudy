@@ -41,6 +41,7 @@
 import ResponsiveImg from '../shared/responsive-img/ResponsiveImg.vue'
 import Button from '../shared/button/Button.vue';
 import Photo from '../../domain/photo/Photo';
+import PhotoService from '../../domain/photo/PhotoService';
 
 export default {
 
@@ -58,7 +59,7 @@ export default {
 
   methods: {
       save() {
-          this.resource
+          this.service
             .save(this.photo)
             .then(() => this.photo = new Photo(), error => console.log(error));
                
@@ -66,7 +67,7 @@ export default {
   },
 
   created() {
-    this.resource = this.$resource('v1/fotos{/id}');
+    this.service = new PhotoService(this.$resource);
   }
 }
 
