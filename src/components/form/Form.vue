@@ -59,7 +59,7 @@ export default {
   methods: {
       save() {
           this.$http
-            .post('http://localhost:3000/v1/fotos', this.photo)
+            .post('v1/fotos', this.photo)
             .then(() => this.photo = new Photo(), error => console.log(error));
                
       }
