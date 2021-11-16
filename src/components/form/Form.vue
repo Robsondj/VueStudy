@@ -58,11 +58,15 @@ export default {
 
   methods: {
       save() {
-          this.$http
-            .post('v1/fotos', this.photo)
+          this.resource
+            .save(this.photo)
             .then(() => this.photo = new Photo(), error => console.log(error));
                
       }
+  },
+
+  created() {
+    this.resource = this.$resource('v1/fotos{/id}');
   }
 }
 
