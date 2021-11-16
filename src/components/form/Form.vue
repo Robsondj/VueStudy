@@ -29,7 +29,7 @@
 
       <div class="centralizado">
         <form-button label="GRAVAR" type="submit"/>
-        <router-link to="/"><form-button label="VOLTAR" type="button"/></router-link>
+        <router-link :to="{name: 'home'}"><form-button label="VOLTAR" type="button"/></router-link>
       </div>
 
     </form>
