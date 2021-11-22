@@ -55,7 +55,7 @@ export default {
 
     this.service
       .list()
-      .then(photos => this.photos = photos, error => console.log(error));
+      .then(photos => this.photos = photos, error => this.message = error.message);
   },
 
   computed: {
@@ -79,8 +79,7 @@ export default {
             this.photos.splice(index, 1);
           }, 
           err => {
-            this.message = 'Não foi possível remover a foto';
-            console.log(err);
+            this.message = error.message
           }
         )
       }

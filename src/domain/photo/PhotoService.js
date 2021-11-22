@@ -14,11 +14,19 @@ export default class FotoService {
     list() {
         return this._resource
           .query()
-          .then(res => res.json());
+          .then(res => res.json(), err => {
+              console.log(err);
+              throw new Error('Não foi possível carregar as fotos.');
+          });
     }
 
     delete(id) {
-        return this._resource.delete({ id });
+        return this._resource
+          .delete({ id })
+          .then(null, err => {
+              console.log(err);
+              throw new Error('Não foi possível apagar as fotos.');
+          });
     }
 
     show(id) {
