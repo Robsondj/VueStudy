@@ -10,24 +10,33 @@
     <form @submit.prevent="save()">
       <div class="controle">
         <label for="titulo">TÍTULO</label>
-        <input id="titulo" autocomplete="off"
-               v-model.lazy="photo.titulo"
+        <input name="titulo" id="titulo" autocomplete="off"
+               v-model="photo.titulo"
+               v-validate data-vv-rules="required|min:3|max:30"
+               data-vv-as="Título"
         >
+        <span class="error" v-show="errors.has('titulo')">{{ errors.first('titulo') }}</span>
       </div>
 
       <div class="controle">
         <label for="url">URL</label>
-        <input id="url" autocomplete="off"
-               v-model.lazy="photo.url"
+        <input name="url" id="url" autocomplete="off"
+               v-model="photo.url"
+               v-validate data-vv-rules="required|min:3"
+               data-vv-as="URL"
         >
         <responsive-img v-show="photo.url" :url="photo.url" :title="photo.titulo" />
+        <span class="error" v-show="errors.has('url')">{{ errors.first('url') }}</span>
       </div>
 
       <div class="controle">
         <label for="descricao">DESCRIÇÃO</label>
-        <textarea id="descricao" autocomplete="off"
-                  v-model.lazy="photo.descricao"
+        <textarea name="descricao" id="descricao" autocomplete="off"
+                  v-model="photo.descricao"
+                  v-validate data-vv-rules="required|min:3|max:30"
+                  data-vv-as="Título"
         ></textarea>
+        <span class="error" v-show="errors.has('descricao')">{{ errors.first('descricao') }}</span>
       </div>
 
       <div class="centralizado">
@@ -63,15 +72,23 @@ export default {
 
   methods: {
       save() {
-          this.service
-            .save(this.photo)
-            .then(() => {
-              if (this.id) {
-                this.$router.push({ name: 'home'});
+
+          this.$validator
+            .validateAll()
+            .then(success => {
+              if(success) {
+
+                this.service
+                .save(this.photo)
+                .then(() => {
+                  if (this.id) {
+                    this.$router.push({ name: 'home'});
+                  }
+                  this.photo = new Photo()
+                }, 
+                error => console.log(error));
               }
-              this.photo = new Photo()
-            }, 
-            error => console.log(error));
+            })
                
       }
   },
@@ -111,6 +128,10 @@ export default {
 
   .centralizado {
     text-align: center;
+  }
+
+  .error {
+    color: red;
   }
 
 </style>

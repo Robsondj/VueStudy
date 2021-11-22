@@ -5,8 +5,10 @@ import VueResource from 'vue-resource';
 import VueRouter from 'vue-router';
 import { routes } from './routes';
 import Transform from './directives/Transform';
+import VeeValidate from 'vee-validate';
 
 Vue.use(VueResource);
+Vue.use(VeeValidate);
 Vue.http.options.root = 'http://localhost:3000';
 
 Vue.use(VueRouter);
